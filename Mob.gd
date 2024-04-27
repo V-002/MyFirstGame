@@ -3,6 +3,8 @@ extends CharacterBody3D
 @export var min_speed: int = 10
 @export var max_speed: int = 18
 
+signal squashed
+
 func _physics_process(delta):
 	move_and_slide()
 
@@ -20,8 +22,9 @@ func initialise(start_position: Vector3, player_position: Vector3):
 	# rotate to the velocity vector to face direction of mob's forward vector
 	velocity = velocity.rotated(Vector3.UP, rotation.y)
 	
-	
-	
+func squash():
+	squashed.emit()
+	queue_free()
 
 func _on_visible_on_screen_notifier_3d_screen_exited():
 	queue_free()
