@@ -14,5 +14,5 @@ script = ExtResource("1_b6ss4")
 [node name="player" parent="Pivot" instance=ExtResource("2_regvo")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.809856, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.212999, 0)
 shape = SubResource("SphereShape3D_kei6p")

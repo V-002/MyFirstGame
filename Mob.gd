@@ -6,7 +6,7 @@ extends CharacterBody3D
 func _physics_process(delta):
 	move_and_slide()
 
-func initialize(start_position: Vector3, player_position: Vector3):
+func initialise(start_position: Vector3, player_position: Vector3):
 	
 	# places the mob at start position and looks at player position
 	look_at_from_position(start_position, player_position, Vector3.UP)
