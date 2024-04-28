@@ -1,10 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://kxj36bd1v8xv"]
+[gd_scene load_steps=13 format=3 uid="uid://kxj36bd1v8xv"]
 
 [ext_resource type="PackedScene" uid="uid://c75cdnyl3gv6y" path="res://player.tscn" id="1_7b36f"]
 [ext_resource type="Script" path="res://main.gd" id="1_tnd8o"]
 [ext_resource type="PackedScene" uid="uid://bao7f3fj1n315" path="res://mob.tscn" id="2_xeju2"]
+[ext_resource type="FontFile" uid="uid://cmybgbshpcxkq" path="res://Assets/fonts/Montserrat-Medium.ttf" id="4_q3dn7"]
+[ext_resource type="Script" path="res://ScoreLabel.gd" id="5_ansk0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jic7s"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_caupj"]
+material = SubResource("StandardMaterial3D_jic7s")
 size = Vector2(60, 60)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5km70"]
@@ -23,6 +28,10 @@ _data = {
 }
 point_count = 5
 
+[sub_resource type="Theme" id="Theme_2fh2m"]
+default_font = ExtResource("4_q3dn7")
+default_font_size = 22
+
 [node name="Main" type="Node"]
 script = ExtResource("1_tnd8o")
 mob_scene = ExtResource("2_xeju2")
@@ -38,7 +47,7 @@ mesh = SubResource("PlaneMesh_caupj")
 shape = SubResource("BoxShape3D_5km70")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.866025, -0.201837, 0.457452, -1.49012e-08, 0.914903, 0.403673, -0.5, -0.349591, 0.79233, -1, 35.2941, 23.6215)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 31, 21)
 shadow_enabled = true
 directional_shadow_mode = 0
 
@@ -80,8 +89,53 @@ curve = SubResource("Curve3D_ewgdh")
 [node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
 transform = Transform3D(0.00742269, 0, -0.999972, 0, 1, 0, 0.999972, 0, 0.00742269, -12.9734, 0, -13.8697)
 
-[node name="Timer" type="Timer" parent="."]
+[node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_2fh2m")
+metadata/_edit_use_anchors_ = true
+
+[node name="ScoreLabel" type="Label" parent="UserInterface"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 81.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Score: 0"
+script = ExtResource("5_ansk0")
+
+[node name="Retry" type="ColorRect" parent="UserInterface"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Label" type="Label" parent="UserInterface/Retry"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -14.0
+offset_right = 20.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press Enter To Retry"
+
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_timer_timeout"]

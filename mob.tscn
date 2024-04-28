@@ -20,6 +20,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0383816, 0.204834, -0.01876
 shape = SubResource("BoxShape3D_um17g")
 
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
+visible = false
 aabb = AABB(-1.26025, -0.276309, -1.64311, 2.5205, 1.26844, 3.61238)
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]

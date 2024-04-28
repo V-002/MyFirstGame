@@ -3,6 +3,13 @@ extends Node
 # asset for the mob
 @export var mob_scene: PackedScene
 
+func _input(event):
+	if event.is_action_pressed("quit"):
+		get_tree().quit()
+
+func _ready():
+	$UserInterface/Retry.hide()
+	
 func _on_timer_timeout():
 	# instantiate the mob scene
 	var mob = mob_scene.instantiate()
@@ -21,3 +28,15 @@ func _on_timer_timeout():
 	
 	# Spawn the mob by adding it to the main scene
 	add_child(mob)
+	
+	# connect this mob's squashed signal to the score label through
+	# -on_mob_squashed
+	mob.squashed.connect($UserInterface/ScoreLabel._on_mob_squashed.bind())
+
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_accept") and $UserInterface/Retry.visible:
+		get_tree().reload_current_scene()
+
+func _on_player_hit():
+	$MobTimer.stop()
+	$UserInterface/Retry.show()
