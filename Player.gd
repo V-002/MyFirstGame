@@ -24,9 +24,12 @@ func _physics_process(delta):
 
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
-
-		# Basis basis represent the transform of $Pivot
-		$Pivot.basis = Basis.looking_at(direction)
+		$AnimationPlayer.speed_scale = 4
+	else:
+		$AnimationPlayer.speed_scale = 1
+		
+	# Basis basis represent the transform of $Pivot
+	$Pivot.basis = Basis.looking_at(direction)
 
 	# set the player's velocity by scaling the direction vector by speed
 	target_velocity.x = direction.x * speed
@@ -57,6 +60,8 @@ func _physics_process(delta):
 
 	velocity = target_velocity
 	move_and_slide()
+	
+	$Pivot.rotation.x = PI / 6 * velocity.y / jump_impulse
 
 func die():
 	if is_killable:
